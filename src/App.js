@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
+import { supabase } from './Supabase';
 
 function App() {
+  const [data, setData] = useState();
+  const signUp = async ()=>{
+    // google social auth
+    try{
+      const { user, session, error } = await supabase.auth.signIn({
+        provider: 'google',
+      });
+      console.log(supabase.auth.user());  
+    }
+    catch (err){
+      console.log(err);
+    }
+
+
+    // github social auth
+    // await supabase.auth.signIn({
+    //   provider: 'github',
+    // }, {
+    //   scopes: 'repo gist notifications'
+    // }).then((result)=>{
+    //   console.log(result);
+    // })
+    
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={signUp}>
+        Sign up
+      </button>
     </div>
   );
 }
